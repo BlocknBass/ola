@@ -230,7 +230,10 @@ bool OlaServer::Init() {
   auto_ptr<PluginManager> plugin_manager(
     new PluginManager(m_plugin_loaders, plugin_adaptor.get()));
 
+  OlaServerServiceImpl::Options service_options;
+  service_options.read_only_universe = m_options.read_only_dmx;
   auto_ptr<OlaServerServiceImpl> service_impl(new OlaServerServiceImpl(
+      service_options,
       universe_store.get(),
       device_manager.get(),
       plugin_manager.get(),

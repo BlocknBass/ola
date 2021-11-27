@@ -51,7 +51,8 @@ using std::endl;
 
 DEFINE_default_bool(http, true, "Disable the HTTP server.");
 DEFINE_default_bool(http_quit, true, "Disable the HTTP /quit handler.");
-DEFINE_default_bool(rpc_listen_any, false, "Whether or not the RPC server should listen on 0.0.0.0");
+DEFINE_default_bool(rpc_listen_any, false, "Whether or not the RPC server should listen on 0.0.0.0.");
+DEFINE_default_bool(read_only_dmx, false, "If set makes RPC unable to modify DMX.");
 #ifndef _WIN32
 DEFINE_s_default_bool(daemon, f, false,
                       "Fork and run as a background process.");
@@ -134,6 +135,7 @@ int main(int argc, char *argv[]) {
   options.http_enable = FLAGS_http;
   options.http_enable_quit = FLAGS_http_quit;
   options.rpc_listen_any = FLAGS_rpc_listen_any;
+  options.read_only_dmx = FLAGS_read_only_dmx;
   options.http_port = FLAGS_http_port;
   options.http_data_dir = FLAGS_http_data_dir.str();
   options.network_interface = FLAGS_interface.str();

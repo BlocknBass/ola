@@ -68,6 +68,7 @@ class OlaServer : public ola::rpc::RpcSessionHandlerInterface {
     bool http_localhost_only;  /** @brief Restrict access to localhost only */
     bool http_enable_quit;  /** @brief Enable /quit URL */
     bool rpc_listen_any; /** @brief listen on INADDR_ANY for RPC */
+    bool read_only_dmx; /** @brief prevents RPC from modifying DMX data */
     unsigned int http_port;  /** @brief Port to run the HTTP server on */
     /** @brief Directory that contains the static content */
     std::string http_data_dir;

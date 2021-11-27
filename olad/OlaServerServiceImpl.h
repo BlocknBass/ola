@@ -49,6 +49,9 @@ class Universe;
  */
 class OlaServerServiceImpl : public ola::proto::OlaServerService {
  public:
+ struct Options {
+  bool read_only_universe;
+ };
   /**
    * @brief A Callback used to reload all the plugins.
    */
@@ -57,7 +60,7 @@ class OlaServerServiceImpl : public ola::proto::OlaServerService {
   /**
    * @brief Create a new OlaServerServiceImpl.
    */
-  OlaServerServiceImpl(class UniverseStore *universe_store,
+  OlaServerServiceImpl(const Options options, class UniverseStore *universe_store,
                        class DeviceManager *device_manager,
                        class PluginManager *plugin_manager,
                        class PortManager *port_manager,
@@ -290,6 +293,7 @@ class OlaServerServiceImpl : public ola::proto::OlaServerService {
 
   class Client* GetClient(ola::rpc::RpcController *controller);
 
+  const Options m_options;
   UniverseStore *m_universe_store;
   DeviceManager *m_device_manager;
   class PluginManager *m_plugin_manager;

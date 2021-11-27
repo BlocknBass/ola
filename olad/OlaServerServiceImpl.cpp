@@ -111,6 +111,7 @@ RDMRequest::OverrideOptions RDMRequestOptionsFromProto(
 typedef CallbackRunner<ola::rpc::RpcService::CompletionCallback> ClosureRunner;
 
 OlaServerServiceImpl::OlaServerServiceImpl(
+    const Options options,
     UniverseStore *universe_store,
     DeviceManager *device_manager,
     PluginManager *plugin_manager,
@@ -118,7 +119,8 @@ OlaServerServiceImpl::OlaServerServiceImpl(
     ClientBroker *broker,
     const TimeStamp *wake_up_time,
     ReloadPluginsCallback *reload_plugins_callback)
-    : m_universe_store(universe_store),
+    : m_options(options),
+      m_universe_store(universe_store),
       m_device_manager(device_manager),
       m_plugin_manager(plugin_manager),
       m_port_manager(port_manager),
@@ -169,6 +171,10 @@ void OlaServerServiceImpl::UpdateDmxData(
     Ack*,
     ola::rpc::RpcService::CompletionCallback* done) {
   ClosureRunner runner(done);
+  if (m_options.read_only_universe) {
+    return MissingUniverseError(controller);
+  }
+
   Universe *universe = m_universe_store->GetUniverse(request->universe());
   if (!universe) {
     return MissingUniverseError(controller);
@@ -196,6 +202,10 @@ void OlaServerServiceImpl::StreamDmxData(
     const ola::proto::DmxData* request,
     ola::proto::STREAMING_NO_RESPONSE*,
     ola::rpc::RpcService::CompletionCallback*) {
+  if (m_options.read_only_universe) {
+    return MissingUniverseError(controller);
+  }
+
   Universe *universe = m_universe_store->GetUniverse(request->universe());
 
   if (!universe) {
