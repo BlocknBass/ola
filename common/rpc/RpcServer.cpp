@@ -98,7 +98,7 @@ bool RpcServer::Init() {
       new TCPAcceptingSocket(&m_tcp_socket_factory));
 
     if (!accepting_socket->Listen(
-          IPV4SocketAddress(IPV4Address::Loopback(), m_options.listen_port))) {
+          IPV4SocketAddress(m_options.listen_any ? IPV4Address::WildCard() : IPV4Address::Loopback(), m_options.listen_port))) {
       OLA_FATAL << "Could not listen on the RPC port " << m_options.listen_port
                 << ", you probably have another instance running.";
       return false;

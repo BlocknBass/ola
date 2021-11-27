@@ -242,6 +242,7 @@ bool OlaServer::Init() {
   // Initialize the RPC server.
   RpcServer::Options rpc_options;
   rpc_options.listen_socket = m_accepting_socket;
+  rpc_options.listen_any = m_options.rpc_listen_any;
   rpc_options.listen_port = FLAGS_rpc_port;
   rpc_options.export_map = m_export_map;
 

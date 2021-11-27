@@ -59,6 +59,11 @@ class RpcServer {
      */
     uint16_t listen_port;
 
+    /**
+     * @brief If the RPC server should listen on INADDR_ANY.
+     */
+    bool listen_any;
+
     class ExportMap *export_map;  ///< The export map to use for stats.
 
     /**
@@ -74,6 +79,7 @@ class RpcServer {
 
     Options()
       : listen_port(0),
+	listen_any(false),
         export_map(NULL),
         listen_socket(NULL) {
     }
